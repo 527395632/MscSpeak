@@ -6,13 +6,13 @@ namespace Example
     {
         static void Main(string[] args)
         {
-            using (var tts = new TextSpeak("808134bd"))
+            using (var tts = new TextSpeak("你的AppID"))
             {
                 while (true)
                 {
-                    tts.Speak(Console.ReadLine());
+                    tts.Speak("这是一个语音示例程序!");
 
-                    Console.WriteLine("---");
+                    Console.WriteLine("播放完成!");
                 }
             }
         }

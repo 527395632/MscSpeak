@@ -6,33 +6,33 @@ namespace MscSpeak
     public struct WavHeader
     {
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-        internal char[] ChunkId;
+        public char[] ChunkId;
 
-        internal uint ChunkSize;
-
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-        internal char[] Format;
+        public uint ChunkSize;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-        internal char[] Subchunk1ID;
-
-        internal uint Subchunk1Size;
-
-        internal ushort AudioFormat;
-
-        internal ushort NumChannels;
-
-        internal uint SampleRate;
-
-        internal uint ByteRate;
-
-        internal ushort BlockAlign;
-
-        internal ushort BitsPerSample;
+        public char[] Format;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-        internal char[] Subchunk2Id;
+        public char[] Subchunk1ID;
 
-        internal uint Subchunk2Size;
+        public uint Subchunk1Size;
+
+        public ushort AudioFormat;
+
+        public ushort NumChannels;
+
+        public uint SampleRate;
+
+        public uint ByteRate;
+
+        public ushort BlockAlign;
+
+        public ushort BitsPerSample;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+        public char[] Subchunk2Id;
+
+        public uint Subchunk2Size;
     }
 }
