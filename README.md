@@ -1,6 +1,12 @@
-# 这是一个科大讯飞的TTS库。支持以下系统及CPU架构
-  1：Windows (x86、x64)
-  2: Linux (x86、x64、arm、arm64)
+# 科大讯飞 TTS 库支持说明
+该 TTS 库支持以下系统及对应的 CPU 架构：
+
+1. **Windows 系统**
+   - 支持的 CPU 架构：x86、x64
+
+2. **Linux 系统**
+   - 支持的 CPU 架构：x86、x64、arm、arm64
+
 
 # 使用示例
 ```csharp
