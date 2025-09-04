@@ -8,19 +8,23 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="NAudio" Version="2.2.1" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Update="msc.dll">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Msc\msc.cfg">
+		<None Update="msc\msc.cfg">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-	  <None Update="Msc\common.jet">
+	  <None Update="msc\common.jet">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Msc\xiaofeng.jet">
+	  <None Update="msc\xiaofeng.jet">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Msc\xiaoyan.jet">
+	  <None Update="msc\xiaoyan.jet">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="msc_x64.dll">
