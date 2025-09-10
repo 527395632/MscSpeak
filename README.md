@@ -10,6 +10,7 @@
 
 
 # 使用示例
+```csharp
 static void Main(string[] args)
 {
     using (var tts = new TextSpeak("你的AppID"))
@@ -21,6 +22,7 @@ static void Main(string[] args)
         }
     }
 }
+```
 
 # 常见问题
 
