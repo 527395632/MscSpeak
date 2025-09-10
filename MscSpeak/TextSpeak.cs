@@ -38,13 +38,10 @@ namespace MscSpeak
             _playWait = new AutoResetEvent(false);
             try
             {
-
                 using (var stream = Create(text, speed, volume, voiceName, rate))
                 {
                     if (stream?.Length > 44)
                     {
-                        File.WriteAllBytes($"{AppContext.BaseDirectory}.wav", ((MemoryStream)stream).ToArray());
-
                         _soundDevice.Play(stream);
                     }
                 }
