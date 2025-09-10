@@ -1,4 +1,4 @@
-﻿namespace MscSpeak
+﻿namespace MscSpeak.Iflyrec
 {
     /// <summary>
     /// 识别器状态枚举

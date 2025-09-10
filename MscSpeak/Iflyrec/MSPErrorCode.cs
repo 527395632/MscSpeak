@@ -1,4 +1,4 @@
-﻿namespace MscSpeak
+﻿namespace MscSpeak.Iflyrec
 {
     /// <summary>
     /// MSP错误代码枚举

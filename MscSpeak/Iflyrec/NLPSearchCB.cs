@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace MscSpeak
+namespace MscSpeak.Iflyrec
 {
     /// <summary>
     /// NLP搜索回调函数
@@ -14,5 +14,5 @@ namespace MscSpeak
     /// <param name="userData">用户数据</param>
     /// <returns>处理结果</returns>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate int NLPSearchCB(nint sessionID, int errorCode, int status, nint result, long rsltLen, nint userData);
+    internal delegate int NLPSearchCB(IntPtr sessionID, int errorCode, int status, IntPtr result, long rsltLen, IntPtr userData);
 }

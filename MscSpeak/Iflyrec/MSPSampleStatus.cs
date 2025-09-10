@@ -1,4 +1,4 @@
-﻿namespace MscSpeak
+﻿namespace MscSpeak.Iflyrec
 {
     /// <summary>
     /// 音频样本状态枚举

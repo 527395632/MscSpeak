@@ -1,9 +1,9 @@
 ﻿using System.Runtime.InteropServices;
 using System.Text;
 
-namespace MscSpeak.Linux
+namespace MscSpeak.Iflyrec
 {
-    internal static class LinuxArm64
+    internal static class Linux86
     {
         /// <summary>
         /// 开始一个TTS会话
@@ -12,7 +12,7 @@ namespace MscSpeak.Linux
         /// <param name="param">创建会话时的参数</param>
         /// <param name="errorCode">错误代码，成功时为0</param>
         /// <returns>成功时返回新会话ID，否则返回NULL和错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern nint QTTSSessionBegin(string param, out MSPErrorCode errorCode);
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace MscSpeak.Linux
         /// <param name="param">创建会话时的参数（宽字符）</param>
         /// <param name="errorCode">错误代码，成功时为0</param>
         /// <returns>成功时返回新会话ID，否则返回NULL和错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         internal static extern nint QTTSSessionBeginW(string param, out MSPErrorCode errorCode);
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace MscSpeak.Linux
         /// <param name="textLen">文本字节大小</param>
         /// <param name="param">参数</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern MSPErrorCode QTTSTextPut(nint sessionID, string textString, uint textLen, string param);
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace MscSpeak.Linux
         /// <param name="textLen">文本字节大小</param>
         /// <param name="param">参数（宽字符）</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         internal static extern MSPErrorCode QTTSTextPutW(nint sessionID, string textString, uint textLen, string param);
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace MscSpeak.Linux
         /// <param name="synthStatus">合成状态（输出）</param>
         /// <param name="errorCode">错误代码，成功时为0（输出）</param>
         /// <returns>当前合成的音频数据缓冲区，大小由QTTSTextSynth返回</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern nint QTTSAudioGet(nint sessionID, out uint audioLen, out TSynthesisFlags synthStatus, out MSPErrorCode errorCode);
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace MscSpeak.Linux
         /// <param name="synthStatus">合成状态（输出）</param>
         /// <param name="errorCode">错误代码，成功时为0（输出）</param>
         /// <returns>当前合成的音频数据缓冲区，大小由QTTSTextSynth返回</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         internal static extern nint QTTSAudioGetW(nint sessionID, out uint audioLen, out int synthStatus, out MSPErrorCode errorCode);
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace MscSpeak.Linux
         /// </summary>
         /// <param name="sessionID">会话开始时返回的会话ID</param>
         /// <returns>返回音频信息字符串</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern nint QTTSAudioInfo(nint sessionID);
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace MscSpeak.Linux
         /// </summary>
         /// <param name="sessionID">会话开始时返回的会话ID（宽字符）</param>
         /// <returns>返回音频信息字符串（宽字符）</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         internal static extern nint QTTSAudioInfoW(nint sessionID);
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace MscSpeak.Linux
         /// <param name="sessionID">要结束的会话ID字符串</param>
         /// <param name="hints">结束会话的用户提示，提示将被记录到CallLog</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern MSPErrorCode QTTSSessionEnd(nint sessionID, string hints);
 
         /// <summary>
@@ -108,11 +108,11 @@ namespace MscSpeak.Linux
         /// <param name="sessionID">要结束的会话ID字符串（宽字符）</param>
         /// <param name="hints">结束会话的用户提示（宽字符），提示将被记录到CallLog</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         internal static extern MSPErrorCode QTTSSessionEndW(nint sessionID, string hints);
 
         /// <summary>
-        /// 获取与MSC相关的参数
+        /// 获取与libs/linux_x86/msc.so相关的参数
         /// 参数可以是本地或服务器参数，目前仅支持网络流量参数"upflow"和"downflow"
         /// </summary>
         /// <param name="sessionID">相关参数的会话ID，设置为NULL以获取全局参数</param>
@@ -120,11 +120,11 @@ namespace MscSpeak.Linux
         /// <param name="paramValue">参数值缓冲区，由用户分配</param>
         /// <param name="valueLen">输入值缓冲区的长度，并返回值字符串的长度（输入/输出）</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern MSPErrorCode QTTSGetParam(nint sessionID, string paramName, StringBuilder paramValue, ref uint valueLen);
 
         /// <summary>
-        /// 获取与MSC相关的参数（宽字符版本）
+        /// 获取与libs/linux_x86/msc.so相关的参数（宽字符版本）
         /// 参数可以是本地或服务器参数，目前仅支持网络流量参数"upflow"和"downflow"
         /// </summary>
         /// <param name="sessionID">相关参数的会话ID（宽字符），设置为NULL以获取全局参数</param>
@@ -132,29 +132,29 @@ namespace MscSpeak.Linux
         /// <param name="paramValue">参数值缓冲区（宽字符），由用户分配</param>
         /// <param name="valueLen">输入值缓冲区的长度，并返回值字符串的长度（输入/输出）</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         internal static extern MSPErrorCode QTTSGetParamW(nint sessionID, string paramName, StringBuilder paramValue, ref uint valueLen);
 
         /// <summary>
-        /// 设置与MSC相关的参数
+        /// 设置与libs/linux_x86/msc.so相关的参数
         /// 参数可以是本地或服务器参数，目前仅支持网络流量参数"upflow"和"downflow"
         /// </summary>
         /// <param name="sessionID">相关参数的会话ID，设置为NULL以设置全局参数</param>
         /// <param name="paramName">参数名称，可以传递多个参数，用','、';'或'\n'分隔</param>
         /// <param name="paramValue">参数值缓冲区，由用户分配</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern MSPErrorCode QTTSSetParam(nint sessionID, string paramName, string paramValue);
 
         /// <summary>
-        /// 设置与MSC相关的参数（宽字符版本）
+        /// 设置与libs/linux_x86/msc.so相关的参数（宽字符版本）
         /// 参数可以是本地或服务器参数，目前仅支持网络流量参数"upflow"和"downflow"
         /// </summary>
         /// <param name="sessionID">相关参数的会话ID（宽字符），设置为NULL以设置全局参数</param>
         /// <param name="paramName">参数名称（宽字符），可以传递多个参数，用','、';'或'\n'分隔</param>
         /// <param name="paramValue">参数值缓冲区（宽字符），由用户分配</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         internal static extern MSPErrorCode QTTSSetParamW(nint sessionID, string paramName, string paramValue);
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace MscSpeak.Linux
         /// </summary>
         /// <param name="wcstr">以空结尾的源字符串（wchar_t *）</param>
         /// <returns>转换后的多字节字符串</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         internal static extern nint Wchar2Mbytes(string wcstr);
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace MscSpeak.Linux
         /// </summary>
         /// <param name="mbstr">以空结尾的源字符串（char *）</param>
         /// <returns>转换后的宽字符字符串</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern nint Mbytes2Wchar(string mbstr);
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace MscSpeak.Linux
         /// <param name="pwd">密码</param>
         /// <param name="param">用户登录时的参数</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern MSPErrorCode MSPLogin(string usr, string pwd, string param);
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace MscSpeak.Linux
         /// <param name="pwd">密码（宽字符）</param>
         /// <param name="param">用户登录时的参数（宽字符）</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         internal static extern MSPErrorCode MSPLoginW(string usr, string pwd, string param);
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace MscSpeak.Linux
         /// 用于用户登出系统
         /// </summary>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall)]
         internal static extern MSPErrorCode MSPLogout();
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace MscSpeak.Linux
         /// 用于用户登出系统
         /// </summary>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall)]
         internal static extern MSPErrorCode MSPLogoutW();
 
         /// <summary>
@@ -219,7 +219,7 @@ namespace MscSpeak.Linux
         /// <param name="param">关于上传数据的参数</param>
         /// <param name="dataID">要操作的数据的ID</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern MSPErrorCode MSPUpload(string dataName, string param, string dataID);
 
         /// <summary>
@@ -232,7 +232,7 @@ namespace MscSpeak.Linux
         /// <param name="resultCb">结果回调函数</param>
         /// <param name="userData">用户数据</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern MSPErrorCode MSPDownload(string dataName, string param, DownloadStatusCB statusCb, DownloadResultCB resultCb, nint userData);
 
         /// <summary>
@@ -245,18 +245,18 @@ namespace MscSpeak.Linux
         /// <param name="resultCb">结果回调函数</param>
         /// <param name="userData">用户数据</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         internal static extern MSPErrorCode MSPDownloadW(string dataName, string param, DownloadStatusCB statusCb, DownloadResultCB resultCb, nint userData);
 
         /// <summary>
         /// 追加数据
-        /// 向MSC写入数据，如要上传的数据、搜索文本等
+        /// 向libs/linux_x86/msc.so写入数据，如要上传的数据、搜索文本等
         /// </summary>
         /// <param name="data">数据缓冲区指针，数据可以是二进制</param>
         /// <param name="dataLen">数据长度</param>
         /// <param name="dataStatus">数据状态，2: 首次或连续，4: 最后</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall)]
         internal static extern MSPErrorCode MSPAppendData(nint data, uint dataLen, uint dataStatus);
 
         /// <summary>
@@ -267,28 +267,28 @@ namespace MscSpeak.Linux
         /// <param name="rsltStatus">返回结果的状态（输出）</param>
         /// <param name="errorCode">成功时返回0，否则返回错误代码（输出）</param>
         /// <returns>上传、下载或搜索等操作的结果</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern nint MSPGetResult(out uint rsltLen, out int rsltStatus, out MSPErrorCode errorCode);
 
         /// <summary>
-        /// 设置MSC的参数
-        /// 设置MSC的相关参数
+        /// 设置libs/linux_x86/msc.so的参数
+        /// 设置libs/linux_x86/msc.so的相关参数
         /// </summary>
         /// <param name="paramName">参数名称</param>
         /// <param name="paramValue">参数值</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern MSPErrorCode MSPSetParam(string paramName, string paramValue);
 
         /// <summary>
-        /// 获取MSC的参数
-        /// 获取MSC的相关参数
+        /// 获取libs/linux_x86/msc.so的参数
+        /// 获取libs/linux_x86/msc.so的相关参数
         /// </summary>
         /// <param name="paramName">参数名称</param>
         /// <param name="paramValue">参数值（输出）</param>
         /// <param name="valueLen">参数值（缓冲区）长度（输入/输出）</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern MSPErrorCode MSPGetParam(string paramName, StringBuilder paramValue, ref uint valueLen);
 
         /// <summary>
@@ -301,7 +301,7 @@ namespace MscSpeak.Linux
         /// <param name="param">关于上传数据的参数</param>
         /// <param name="errorCode">成功时返回0，否则返回错误代码（输出）</param>
         /// <returns>服务器返回的数据ID，用于特殊命令</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern nint MSPUploadData(string dataName, nint data, uint dataLen, string param, out MSPErrorCode errorCode);
 
         /// <summary>
@@ -312,7 +312,7 @@ namespace MscSpeak.Linux
         /// <param name="dataLen">接收数据的长度（输出）</param>
         /// <param name="errorCode">成功时返回0，否则返回错误代码（输出）</param>
         /// <returns>接收数据的缓冲区指针，数据可以是二进制，失败或数据不存在时为NULL</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern nint MSPDownloadData(string param, out uint dataLen, out MSPErrorCode errorCode);
 
         /// <summary>
@@ -323,7 +323,7 @@ namespace MscSpeak.Linux
         /// <param name="dataLen">接收数据的长度（输出）</param>
         /// <param name="errorCode">成功时返回0，否则返回错误代码（输出）</param>
         /// <returns>接收数据的缓冲区指针，数据可以是二进制，失败或数据不存在时为NULL</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         internal static extern nint MSPDownloadDataW(string param, out uint dataLen, out MSPErrorCode errorCode);
 
         /// <summary>
@@ -335,7 +335,7 @@ namespace MscSpeak.Linux
         /// <param name="dataLen">接收数据的长度（输出）</param>
         /// <param name="errorCode">成功时返回0，否则返回错误代码（输出）</param>
         /// <returns>接收数据的缓冲区指针，数据可以是二进制，失败或数据不存在时为NULL</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern nint MSPSearch(string param, string text, out uint dataLen, out MSPErrorCode errorCode);
 
         /// <summary>
@@ -348,7 +348,7 @@ namespace MscSpeak.Linux
         /// <param name="callback">回调函数</param>
         /// <param name="userData">用户数据</param>
         /// <returns>会话ID</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern nint MSPNlpSearch(string param, string text, uint textLen, out MSPErrorCode errorCode, NLPSearchCB callback, nint userData);
 
         /// <summary>
@@ -357,7 +357,7 @@ namespace MscSpeak.Linux
         /// <param name="sessionID">会话ID</param>
         /// <param name="hints">提示信息</param>
         /// <returns>处理结果</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern MSPErrorCode MSPNlpSchCancel(nint sessionID, string hints);
 
         /// <summary>
@@ -367,17 +367,17 @@ namespace MscSpeak.Linux
         /// <param name="statusCb">通知处理函数</param>
         /// <param name="userData">用户数据</param>
         /// <returns>处理结果</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall)]
         internal static extern nint MSPRegisterNotify(MSPStatusNtfHandler statusCb, nint userData);
 
         /// <summary>
-        /// 获取MSC或本地引擎的版本
-        /// 获取MSC或本地引擎的版本信息
+        /// 获取libs/linux_x86/msc.so或本地引擎的版本
+        /// 获取libs/linux_x86/msc.so或本地引擎的版本信息
         /// </summary>
-        /// <param name="verName">版本名称，可以是"msc"、"aitalk"、"aisound"、"ivw"</param>
+        /// <param name="verName">版本名称，可以是"libs/linux_x86/msc.so"、"aitalk"、"aisound"、"ivw"</param>
         /// <param name="errorCode">成功时返回0，否则返回错误代码（输出）</param>
         /// <returns>成功时返回版本值，失败时返回NULL</returns>
-        [DllImport("libmsc_arm64", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DllImport("libs/linux_x86/msc.so", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern nint MSPGetVersion(string verName, out MSPErrorCode errorCode);
     }
 }

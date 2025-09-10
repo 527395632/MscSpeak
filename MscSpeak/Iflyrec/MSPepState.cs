@@ -1,4 +1,4 @@
-﻿namespace MscSpeak
+﻿namespace MscSpeak.Iflyrec
 {
     /// <summary>
     /// 端点检测器状态枚举

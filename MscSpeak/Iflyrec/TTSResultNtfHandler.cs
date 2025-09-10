@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace MscSpeak
+namespace MscSpeak.Iflyrec
 {
     /// <summary>
     /// TTS结果通知回调函数
@@ -15,5 +15,5 @@ namespace MscSpeak
     /// <param name="audioInfoLen">音频信息长度</param>
     /// <param name="userData">用户数据</param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate void TTSResultNtfHandler(nint sessionID, nint audio, int audioLen, int synthStatus, int ced, nint audioInfo, int audioInfoLen, nint userData);
+    internal delegate void TTSResultNtfHandler(IntPtr sessionID, IntPtr audio, int audioLen, int synthStatus, int ced, IntPtr audioInfo, int audioInfoLen, IntPtr userData);
 }

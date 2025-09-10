@@ -1,4 +1,4 @@
-﻿namespace MscSpeak
+﻿namespace MscSpeak.Iflyrec
 {
     /// <summary>
     /// 合成过程标志枚举

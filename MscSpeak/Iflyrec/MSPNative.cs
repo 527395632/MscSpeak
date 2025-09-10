@@ -1,10 +1,8 @@
-﻿using MscSpeak.Linux;
-using MscSpeak.Windows;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace MscSpeak
+namespace MscSpeak.Iflyrec
 {
     internal static class MSPNative
     {
@@ -15,11 +13,11 @@ namespace MscSpeak
         /// <param name="param">创建会话时的参数</param>
         /// <param name="errorCode">错误代码，成功时为0</param>
         /// <returns>成功时返回新会话ID，否则返回NULL和错误代码</returns>
-        internal static nint QTTSSessionBegin(string param, out MSPErrorCode errorCode)
+        internal static IntPtr QTTSSessionBegin(string param, out MSPErrorCode errorCode)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.QTTSSessionBegin(param, out errorCode);
                 }
@@ -57,11 +55,11 @@ namespace MscSpeak
         /// <param name="param">创建会话时的参数（宽字符）</param>
         /// <param name="errorCode">错误代码，成功时为0</param>
         /// <returns>成功时返回新会话ID，否则返回NULL和错误代码</returns>
-        internal static nint QTTSSessionBeginW(string param, out MSPErrorCode errorCode)
+        internal static IntPtr QTTSSessionBeginW(string param, out MSPErrorCode errorCode)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.QTTSSessionBeginW(param, out errorCode);
                 }
@@ -101,11 +99,11 @@ namespace MscSpeak
         /// <param name="textLen">文本字节大小</param>
         /// <param name="param">参数</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        internal static MSPErrorCode QTTSTextPut(nint sessionID, string textString, uint textLen, string param)
+        internal static MSPErrorCode QTTSTextPut(IntPtr sessionID, string textString, uint textLen, string param)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.QTTSTextPut(sessionID, textString, textLen, param);
                 }
@@ -145,11 +143,11 @@ namespace MscSpeak
         /// <param name="textLen">文本字节大小</param>
         /// <param name="param">参数（宽字符）</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        internal static MSPErrorCode QTTSTextPutW(nint sessionID, string textString, uint textLen, string param)
+        internal static MSPErrorCode QTTSTextPutW(IntPtr sessionID, string textString, uint textLen, string param)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.QTTSTextPutW(sessionID, textString, textLen, param);
                 }
@@ -189,11 +187,11 @@ namespace MscSpeak
         /// <param name="synthStatus">合成状态（输出）</param>
         /// <param name="errorCode">错误代码，成功时为0（输出）</param>
         /// <returns>当前合成的音频数据缓冲区，大小由QTTSTextSynth返回</returns>
-        internal static nint QTTSAudioGet(nint sessionID, out uint audioLen, out TSynthesisFlags synthStatus, out MSPErrorCode errorCode)
+        internal static IntPtr QTTSAudioGet(IntPtr sessionID, out uint audioLen, out TSynthesisFlags synthStatus, out MSPErrorCode errorCode)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.QTTSAudioGet(sessionID, out audioLen, out synthStatus, out errorCode);
                 }
@@ -233,11 +231,11 @@ namespace MscSpeak
         /// <param name="synthStatus">合成状态（输出）</param>
         /// <param name="errorCode">错误代码，成功时为0（输出）</param>
         /// <returns>当前合成的音频数据缓冲区，大小由QTTSTextSynth返回</returns>
-        internal static nint QTTSAudioGetW(nint sessionID, out uint audioLen, out int synthStatus, out MSPErrorCode errorCode)
+        internal static IntPtr QTTSAudioGetW(IntPtr sessionID, out uint audioLen, out int synthStatus, out MSPErrorCode errorCode)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.QTTSAudioGetW(sessionID, out audioLen, out synthStatus, out errorCode);
                 }
@@ -274,11 +272,11 @@ namespace MscSpeak
         /// </summary>
         /// <param name="sessionID">会话开始时返回的会话ID</param>
         /// <returns>返回音频信息字符串</returns>
-        internal static nint QTTSAudioInfo(nint sessionID)
+        internal static IntPtr QTTSAudioInfo(IntPtr sessionID)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.QTTSAudioInfo(sessionID);
                 }
@@ -315,11 +313,11 @@ namespace MscSpeak
         /// </summary>
         /// <param name="sessionID">会话开始时返回的会话ID（宽字符）</param>
         /// <returns>返回音频信息字符串（宽字符）</returns>
-        internal static nint QTTSAudioInfoW(nint sessionID)
+        internal static IntPtr QTTSAudioInfoW(IntPtr sessionID)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.QTTSAudioInfoW(sessionID);
                 }
@@ -357,11 +355,11 @@ namespace MscSpeak
         /// <param name="sessionID">要结束的会话ID字符串</param>
         /// <param name="hints">结束会话的用户提示，提示将被记录到CallLog</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        internal static MSPErrorCode QTTSSessionEnd(nint sessionID, string hints)
+        internal static MSPErrorCode QTTSSessionEnd(IntPtr sessionID, string hints)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.QTTSSessionEnd(sessionID, hints);
                 }
@@ -399,11 +397,11 @@ namespace MscSpeak
         /// <param name="sessionID">要结束的会话ID字符串（宽字符）</param>
         /// <param name="hints">结束会话的用户提示（宽字符），提示将被记录到CallLog</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        internal static MSPErrorCode QTTSSessionEndW(nint sessionID, string hints)
+        internal static MSPErrorCode QTTSSessionEndW(IntPtr sessionID, string hints)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.QTTSSessionEndW(sessionID, hints);
                 }
@@ -443,11 +441,11 @@ namespace MscSpeak
         /// <param name="paramValue">参数值缓冲区，由用户分配</param>
         /// <param name="valueLen">输入值缓冲区的长度，并返回值字符串的长度（输入/输出）</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        internal static MSPErrorCode QTTSGetParam(nint sessionID, string paramName, StringBuilder paramValue, ref uint valueLen)
+        internal static MSPErrorCode QTTSGetParam(IntPtr sessionID, string paramName, StringBuilder paramValue, ref uint valueLen)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.QTTSGetParam(sessionID, paramName, paramValue, ref valueLen);
                 }
@@ -487,11 +485,11 @@ namespace MscSpeak
         /// <param name="paramValue">参数值缓冲区（宽字符），由用户分配</param>
         /// <param name="valueLen">输入值缓冲区的长度，并返回值字符串的长度（输入/输出）</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        internal static MSPErrorCode QTTSGetParamW(nint sessionID, string paramName, StringBuilder paramValue, ref uint valueLen)
+        internal static MSPErrorCode QTTSGetParamW(IntPtr sessionID, string paramName, StringBuilder paramValue, ref uint valueLen)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.QTTSGetParamW(sessionID, paramName, paramValue, ref valueLen);
                 }
@@ -530,11 +528,11 @@ namespace MscSpeak
         /// <param name="paramName">参数名称，可以传递多个参数，用','、';'或'\n'分隔</param>
         /// <param name="paramValue">参数值缓冲区，由用户分配</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        internal static MSPErrorCode QTTSSetParam(nint sessionID, string paramName, string paramValue)
+        internal static MSPErrorCode QTTSSetParam(IntPtr sessionID, string paramName, string paramValue)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.QTTSSetParam(sessionID, paramName, paramValue);
                 }
@@ -573,11 +571,11 @@ namespace MscSpeak
         /// <param name="paramName">参数名称（宽字符），可以传递多个参数，用','、';'或'\n'分隔</param>
         /// <param name="paramValue">参数值缓冲区（宽字符），由用户分配</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        internal static MSPErrorCode QTTSSetParamW(nint sessionID, string paramName, string paramValue)
+        internal static MSPErrorCode QTTSSetParamW(IntPtr sessionID, string paramName, string paramValue)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.QTTSSetParamW(sessionID, paramName, paramValue);
                 }
@@ -613,11 +611,11 @@ namespace MscSpeak
         /// </summary>
         /// <param name="wcstr">以空结尾的源字符串（wchar_t *）</param>
         /// <returns>转换后的多字节字符串</returns>
-        internal static nint Wchar2Mbytes(string wcstr)
+        internal static IntPtr Wchar2Mbytes(string wcstr)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.Wchar2Mbytes(wcstr);
                 }
@@ -653,11 +651,11 @@ namespace MscSpeak
         /// </summary>
         /// <param name="mbstr">以空结尾的源字符串（char *）</param>
         /// <returns>转换后的宽字符字符串</returns>
-        internal static nint Mbytes2Wchar(string mbstr)
+        internal static IntPtr Mbytes2Wchar(string mbstr)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.Mbytes2Wchar(mbstr);
                 }
@@ -700,7 +698,7 @@ namespace MscSpeak
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.MSPLogin(usr, pwd, param);
                 }
@@ -743,7 +741,7 @@ namespace MscSpeak
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.MSPLoginW(usr, pwd, param);
                 }
@@ -783,7 +781,7 @@ namespace MscSpeak
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.MSPLogout();
                 }
@@ -823,7 +821,7 @@ namespace MscSpeak
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.MSPLogoutW();
                 }
@@ -866,7 +864,7 @@ namespace MscSpeak
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.MSPUpload(dataName, param, dataID);
                 }
@@ -907,11 +905,11 @@ namespace MscSpeak
         /// <param name="resultCb">结果回调函数</param>
         /// <param name="userData">用户数据</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        internal static MSPErrorCode MSPDownload(string dataName, string param, DownloadStatusCB statusCb, DownloadResultCB resultCb, nint userData)
+        internal static MSPErrorCode MSPDownload(string dataName, string param, DownloadStatusCB statusCb, DownloadResultCB resultCb, IntPtr userData)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.MSPDownload(dataName, param, statusCb, resultCb, userData);
                 }
@@ -952,11 +950,11 @@ namespace MscSpeak
         /// <param name="resultCb">结果回调函数</param>
         /// <param name="userData">用户数据</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        internal static MSPErrorCode MSPDownloadW(string dataName, string param, DownloadStatusCB statusCb, DownloadResultCB resultCb, nint userData)
+        internal static MSPErrorCode MSPDownloadW(string dataName, string param, DownloadStatusCB statusCb, DownloadResultCB resultCb, IntPtr userData)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.MSPDownloadW(dataName, param, statusCb, resultCb, userData);
                 }
@@ -995,11 +993,11 @@ namespace MscSpeak
         /// <param name="dataLen">数据长度</param>
         /// <param name="dataStatus">数据状态，2: 首次或连续，4: 最后</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        internal static MSPErrorCode MSPAppendData(nint data, uint dataLen, uint dataStatus)
+        internal static MSPErrorCode MSPAppendData(IntPtr data, uint dataLen, uint dataStatus)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.MSPAppendData(data, dataLen, dataStatus);
                 }
@@ -1038,11 +1036,11 @@ namespace MscSpeak
         /// <param name="rsltStatus">返回结果的状态（输出）</param>
         /// <param name="errorCode">成功时返回0，否则返回错误代码（输出）</param>
         /// <returns>上传、下载或搜索等操作的结果</returns>
-        internal static nint MSPGetResult(out uint rsltLen, out int rsltStatus, out MSPErrorCode errorCode)
+        internal static IntPtr MSPGetResult(out uint rsltLen, out int rsltStatus, out MSPErrorCode errorCode)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.MSPGetResult(out rsltLen, out rsltStatus, out errorCode);
                 }
@@ -1084,7 +1082,7 @@ namespace MscSpeak
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.MSPSetParam(paramName, paramValue);
                 }
@@ -1127,7 +1125,7 @@ namespace MscSpeak
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.MSPGetParam(paramName, paramValue, ref valueLen);
                 }
@@ -1168,11 +1166,11 @@ namespace MscSpeak
         /// <param name="param">关于上传数据的参数</param>
         /// <param name="errorCode">成功时返回0，否则返回错误代码（输出）</param>
         /// <returns>服务器返回的数据ID，用于特殊命令</returns>
-        internal static nint MSPUploadData(string dataName, nint data, uint dataLen, string param, out MSPErrorCode errorCode)
+        internal static IntPtr MSPUploadData(string dataName, IntPtr data, uint dataLen, string param, out MSPErrorCode errorCode)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.MSPUploadData(dataName, data, dataLen, param, out errorCode);
                 }
@@ -1211,11 +1209,11 @@ namespace MscSpeak
         /// <param name="dataLen">接收数据的长度（输出）</param>
         /// <param name="errorCode">成功时返回0，否则返回错误代码（输出）</param>
         /// <returns>接收数据的缓冲区指针，数据可以是二进制，失败或数据不存在时为NULL</returns>
-        internal static nint MSPDownloadData(string param, out uint dataLen, out MSPErrorCode errorCode)
+        internal static IntPtr MSPDownloadData(string param, out uint dataLen, out MSPErrorCode errorCode)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.MSPDownloadData(param, out dataLen, out errorCode);
                 }
@@ -1254,11 +1252,11 @@ namespace MscSpeak
         /// <param name="dataLen">接收数据的长度（输出）</param>
         /// <param name="errorCode">成功时返回0，否则返回错误代码（输出）</param>
         /// <returns>接收数据的缓冲区指针，数据可以是二进制，失败或数据不存在时为NULL</returns>
-        internal static nint MSPDownloadDataW(string param, out uint dataLen, out MSPErrorCode errorCode)
+        internal static IntPtr MSPDownloadDataW(string param, out uint dataLen, out MSPErrorCode errorCode)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.MSPDownloadDataW(param, out dataLen, out errorCode);
                 }
@@ -1298,11 +1296,11 @@ namespace MscSpeak
         /// <param name="dataLen">接收数据的长度（输出）</param>
         /// <param name="errorCode">成功时返回0，否则返回错误代码（输出）</param>
         /// <returns>接收数据的缓冲区指针，数据可以是二进制，失败或数据不存在时为NULL</returns>
-        internal static nint MSPSearch(string param, string text, out uint dataLen, out MSPErrorCode errorCode)
+        internal static IntPtr MSPSearch(string param, string text, out uint dataLen, out MSPErrorCode errorCode)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.MSPSearch(param, text, out dataLen, out errorCode);
                 }
@@ -1343,11 +1341,11 @@ namespace MscSpeak
         /// <param name="callback">回调函数</param>
         /// <param name="userData">用户数据</param>
         /// <returns>会话ID</returns>
-        internal static nint MSPNlpSearch(string param, string text, uint textLen, out MSPErrorCode errorCode, NLPSearchCB callback, nint userData)
+        internal static IntPtr MSPNlpSearch(string param, string text, uint textLen, out MSPErrorCode errorCode, NLPSearchCB callback, IntPtr userData)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.MSPNlpSearch(param, text, textLen, out errorCode, callback, userData);
                 }
@@ -1384,11 +1382,11 @@ namespace MscSpeak
         /// <param name="sessionID">会话ID</param>
         /// <param name="hints">提示信息</param>
         /// <returns>处理结果</returns>
-        internal static MSPErrorCode MSPNlpSchCancel(nint sessionID, string hints)
+        internal static MSPErrorCode MSPNlpSchCancel(IntPtr sessionID, string hints)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.MSPNlpSchCancel(sessionID, hints);
                 }
@@ -1426,11 +1424,11 @@ namespace MscSpeak
         /// <param name="statusCb">通知处理函数</param>
         /// <param name="userData">用户数据</param>
         /// <returns>处理结果</returns>
-        internal static nint MSPRegisterNotify(MSPStatusNtfHandler statusCb, nint userData)
+        internal static IntPtr MSPRegisterNotify(MSPStatusNtfHandler statusCb, IntPtr userData)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.MSPRegisterNotify(statusCb, userData);
                 }
@@ -1468,11 +1466,11 @@ namespace MscSpeak
         /// <param name="verName">版本名称，可以是"msc"、"aitalk"、"aisound"、"ivw"</param>
         /// <param name="errorCode">成功时返回0，否则返回错误代码（输出）</param>
         /// <returns>成功时返回版本值，失败时返回NULL</returns>
-        internal static nint MSPGetVersion(string verName, out MSPErrorCode errorCode)
+        internal static IntPtr MSPGetVersion(string verName, out MSPErrorCode errorCode)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (nint.Size == 8)
+                if (IntPtr.Size == 8)
                 {
                     return Windows64.MSPGetVersion(verName, out errorCode);
                 }

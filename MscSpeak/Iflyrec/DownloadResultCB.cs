@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace MscSpeak
+namespace MscSpeak.Iflyrec
 {
     /// <summary>
     /// 下载结果回调函数
@@ -11,5 +11,5 @@ namespace MscSpeak
     /// <param name="userData">用户数据</param>
     /// <returns>处理结果</returns>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate int DownloadResultCB(nint data, long dataLen, nint userData);
+    internal delegate int DownloadResultCB(IntPtr data, long dataLen, IntPtr userData);
 }
