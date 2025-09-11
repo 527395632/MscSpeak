@@ -8,6 +8,7 @@ namespace MscSpeak.Iflyrec
     public abstract class MSPAudio : IDisposable
     {
         private IntPtr _hwd = IntPtr.Zero;
+        private readonly string _appid;
 
         static MSPAudio()
         {
@@ -20,8 +21,7 @@ namespace MscSpeak.Iflyrec
         /// <param name="appid">科大讯飞AppID</param>
         protected MSPAudio(string appid)
         {
-            if (MSPNative.MSPLogin(null, null, $"appid={appid},work_dir=.") != MSPErrorCode.MSP_SUCCESS)
-                throw new Exception("登录失败!");
+            _appid = appid;
         }
 
         /// <summary>
@@ -43,52 +43,56 @@ namespace MscSpeak.Iflyrec
                 var stream = new MemoryStream();
                 try
                 {
-                    _hwd = MSPNative.QTTSSessionBegin($"engine_type=local,voice_name={voiceName},text_encoding=GBK,tts_res_path=fo|{voiceName}.jet;fo|common.jet,sample_rate={rate},speed={speed},volume={volume},pitch=50,rdn=2,rcn=0", out var errorCode);
-                    if (_hwd != IntPtr.Zero && errorCode == MSPErrorCode.MSP_SUCCESS)
+
+                    if (MSPNative.MSPLogin(null, null, $"appid={_appid},work_dir=.") == MSPErrorCode.MSP_SUCCESS)
                     {
-
-                        var gbkEncoding = Encoding.GetEncoding("GBK");
-                        text = gbkEncoding.GetString(gbkEncoding.GetBytes(text));
-
-                        uint textLen = (uint)gbkEncoding.GetByteCount(text);
-                        if (MSPNative.QTTSTextPut(_hwd, text, textLen, "") == MSPErrorCode.MSP_SUCCESS)
+                        _hwd = MSPNative.QTTSSessionBegin($"engine_type=local,voice_name={voiceName},text_encoding=GBK,tts_res_path=fo|{voiceName}.jet;fo|common.jet,sample_rate={rate},speed={speed},volume={volume},pitch=50,rdn=2,rcn=0", out var errorCode);
+                        if (_hwd != IntPtr.Zero && errorCode == MSPErrorCode.MSP_SUCCESS)
                         {
-                            uint audioLen;
-                            TSynthesisFlags synthStatus = 0;
-                            do
+
+                            var gbkEncoding = Encoding.GetEncoding("GBK");
+                            text = gbkEncoding.GetString(gbkEncoding.GetBytes(text));
+
+                            uint textLen = (uint)gbkEncoding.GetByteCount(text);
+                            if (MSPNative.QTTSTextPut(_hwd, text, textLen, "") == MSPErrorCode.MSP_SUCCESS)
                             {
-                                var audioData = MSPNative.QTTSAudioGet(_hwd, out audioLen, out synthStatus, out var getError);
-                                if (getError != MSPErrorCode.MSP_SUCCESS)
+                                uint audioLen;
+                                TSynthesisFlags synthStatus = 0;
+                                do
                                 {
-                                    stream.Dispose();
-                                    return null;
-                                }
-                                if (audioLen > 0 && audioData != nint.Zero)
+                                    var audioData = MSPNative.QTTSAudioGet(_hwd, out audioLen, out synthStatus, out var getError);
+                                    if (getError != MSPErrorCode.MSP_SUCCESS)
+                                    {
+                                        stream.Dispose();
+                                        return null;
+                                    }
+                                    if (audioLen > 0 && audioData != nint.Zero)
+                                    {
+                                        var buffer = new byte[audioLen];
+                                        Marshal.Copy(audioData, buffer, 0, (int)audioLen);
+                                        stream.Write(buffer, 0, (int)audioLen);
+                                    }
+                                } while (synthStatus != TSynthesisFlags.MSP_TTS_FLAG_DATA_END);
+                                stream.Position = 0;
+                                stream.Write(new WavHeader
                                 {
-                                    var buffer = new byte[audioLen];
-                                    Marshal.Copy(audioData, buffer, 0, (int)audioLen);
-                                    stream.Write(buffer, 0, (int)audioLen);
-                                }
-                            } while (synthStatus != TSynthesisFlags.MSP_TTS_FLAG_DATA_END);
-                            stream.Position = 0;
-                            stream.Write(new WavHeader
-                            {
-                                ChunkId = ['R', 'I', 'F', 'F'],
-                                ChunkSize = (uint)(stream.Length + Marshal.SizeOf<WavHeader>() - 8),
-                                Format = ['W', 'A', 'V', 'E'],
-                                Subchunk1ID = ['f', 'm', 't', ' '],
-                                Subchunk1Size = 16,
-                                AudioFormat = 1,
-                                NumChannels = 1,
-                                SampleRate = rate,
-                                ByteRate = rate * 2,
-                                BlockAlign = 2,
-                                BitsPerSample = 16,
-                                Subchunk2Id = ['d', 'a', 't', 'a'],
-                                Subchunk2Size = (uint)stream.Length
-                            }.ToBytes(), 0, Marshal.SizeOf<WavHeader>());
-                            stream.Position = 0;
-                            return stream;
+                                    ChunkId = ['R', 'I', 'F', 'F'],
+                                    ChunkSize = (uint)(stream.Length + Marshal.SizeOf<WavHeader>() - 8),
+                                    Format = ['W', 'A', 'V', 'E'],
+                                    Subchunk1ID = ['f', 'm', 't', ' '],
+                                    Subchunk1Size = 16,
+                                    AudioFormat = 1,
+                                    NumChannels = 1,
+                                    SampleRate = rate,
+                                    ByteRate = rate * 2,
+                                    BlockAlign = 2,
+                                    BitsPerSample = 16,
+                                    Subchunk2Id = ['d', 'a', 't', 'a'],
+                                    Subchunk2Size = (uint)stream.Length
+                                }.ToBytes(), 0, Marshal.SizeOf<WavHeader>());
+                                stream.Position = 0;
+                                return stream;
+                            }
                         }
                     }
                 }
@@ -98,25 +102,23 @@ namespace MscSpeak.Iflyrec
                 }
                 finally
                 {
-                    Cleanup();
+                    Dispose();
                 }
                 return null;
             }
         }
 
-        protected void Cleanup()
+        public virtual void Dispose()
         {
             lock (this)
             {
                 if (_hwd != nint.Zero)
+                {
                     MSPNative.QTTSSessionEnd(_hwd, "合成完成");
+                    MSPNative.MSPLogout();
+                    _hwd = nint.Zero;
+                }
             }
-        }
-
-        public virtual void Dispose()
-        {
-            Cleanup();
-            MSPNative.MSPLogout();
         }
     }
 }

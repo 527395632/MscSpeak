@@ -64,6 +64,7 @@ namespace MscSpeak.Player
             if (_hwd != IntPtr.Zero)
             {
                 WinmmNative.WaveOutReset(_hwd);
+                _hwd = nint.Zero;
                 while (!IsPlayed) Thread.Sleep(50);
             }
         }

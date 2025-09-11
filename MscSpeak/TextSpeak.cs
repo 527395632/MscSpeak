@@ -49,12 +49,13 @@ namespace MscSpeak
             finally
             {
                 _playWait.Set();
+                _playWait = null;
             }
         }
 
         public void Stop()
         {
-            base.Cleanup();
+            base.Dispose();
             _soundDevice?.Stop();
             _playWait?.WaitOne();
         }
