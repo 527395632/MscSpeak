@@ -24,7 +24,7 @@ namespace MscSpeak
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                _soundDevice = new LinuxDevice();
+                _soundDevice = new LinuxFileDevice();
             }
             else
             {

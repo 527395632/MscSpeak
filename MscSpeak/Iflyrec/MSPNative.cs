@@ -95,40 +95,40 @@ namespace MscSpeak.Iflyrec
         /// 将文本字符串写入合成器
         /// </summary>
         /// <param name="sessionID">会话开始时返回的会话ID</param>
-        /// <param name="textString">文本缓冲区</param>
+        /// <param name="buffer">文本缓冲区</param>
         /// <param name="textLen">文本字节大小</param>
         /// <param name="param">参数</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
-        internal static MSPErrorCode QTTSTextPut(IntPtr sessionID, string textString, uint textLen, string param)
+        internal static MSPErrorCode QTTSTextPut(IntPtr sessionID, byte[] buffer, uint textLen, string param)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 if (IntPtr.Size == 8)
                 {
-                    return Windows64.QTTSTextPut(sessionID, textString, textLen, param);
+                    return Windows64.QTTSTextPut(sessionID, buffer, textLen, param);
                 }
                 else
                 {
-                    return Windows86.QTTSTextPut(sessionID, textString, textLen, param);
+                    return Windows86.QTTSTextPut(sessionID, buffer, textLen, param);
                 }
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 if (RuntimeInformation.ProcessArchitecture == Architecture.X86)
                 {
-                    return Linux86.QTTSTextPut(sessionID, textString, textLen, param);
+                    return Linux86.QTTSTextPut(sessionID, buffer, textLen, param);
                 }
                 else if (RuntimeInformation.ProcessArchitecture == Architecture.X64)
                 {
-                    return Linux64.QTTSTextPut(sessionID, textString, textLen, param);
+                    return Linux64.QTTSTextPut(sessionID, buffer, textLen, param);
                 }
                 else if (RuntimeInformation.ProcessArchitecture == Architecture.Arm)
                 {
-                    return LinuxArm86.QTTSTextPut(sessionID, textString, textLen, param);
+                    return LinuxArm86.QTTSTextPut(sessionID, buffer, textLen, param);
                 }
                 else if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
                 {
-                    return LinuxArm64.QTTSTextPut(sessionID, textString, textLen, param);
+                    return LinuxArm64.QTTSTextPut(sessionID, buffer, textLen, param);
                 }
             }
             throw new NotSupportedException("当前系统还不支持!");

@@ -30,12 +30,12 @@ namespace MscSpeak.Iflyrec
         /// 将文本字符串写入合成器
         /// </summary>
         /// <param name="sessionID">会话开始时返回的会话ID</param>
-        /// <param name="textString">文本缓冲区</param>
+        /// <param name="buffer">文本缓冲区</param>
         /// <param name="textLen">文本字节大小</param>
         /// <param name="param">参数</param>
         /// <returns>成功时返回0，否则返回错误代码</returns>
         [DllImport(@"libs\win_x86\msc.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
-        internal static extern MSPErrorCode QTTSTextPut(nint sessionID, string textString, uint textLen, string param);
+        internal static extern MSPErrorCode QTTSTextPut(nint sessionID, byte[] buffer, uint textLen, string param);
 
         /// <summary>
         /// 向TTS会话输入文本缓冲区（宽字符版本）

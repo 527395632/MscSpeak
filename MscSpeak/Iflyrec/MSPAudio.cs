@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MscSpeak.Iflyrec
 {
-    public abstract class MSPAudio : IDisposable
+    public abstract class MSPAudio
     {
         private IntPtr _hwd = IntPtr.Zero;
         private readonly string _appid;
@@ -49,12 +49,8 @@ namespace MscSpeak.Iflyrec
                         _hwd = MSPNative.QTTSSessionBegin($"engine_type=local,voice_name={voiceName},text_encoding=GBK,tts_res_path=fo|{voiceName}.jet;fo|common.jet,sample_rate={rate},speed={speed},volume={volume},pitch=50,rdn=2,rcn=0", out var errorCode);
                         if (_hwd != IntPtr.Zero && errorCode == MSPErrorCode.MSP_SUCCESS)
                         {
-
-                            var gbkEncoding = Encoding.GetEncoding("GBK");
-                            text = gbkEncoding.GetString(gbkEncoding.GetBytes(text));
-
-                            uint textLen = (uint)gbkEncoding.GetByteCount(text);
-                            if (MSPNative.QTTSTextPut(_hwd, text, textLen, "") == MSPErrorCode.MSP_SUCCESS)
+                            var textBuffer = Encoding.GetEncoding("GBK").GetBytes(text);
+                            if (MSPNative.QTTSTextPut(_hwd, textBuffer, (uint)textBuffer.Length, "") == MSPErrorCode.MSP_SUCCESS)
                             {
                                 uint audioLen;
                                 TSynthesisFlags synthStatus = 0;
@@ -102,13 +98,13 @@ namespace MscSpeak.Iflyrec
                 }
                 finally
                 {
-                    Dispose();
+                    Cleanup();
                 }
                 return null;
             }
         }
 
-        public virtual void Dispose()
+        public void Cleanup()
         {
             lock (this)
             {
